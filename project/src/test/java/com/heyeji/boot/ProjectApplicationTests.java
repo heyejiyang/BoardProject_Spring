@@ -1,4 +1,4 @@
-package com.heyeji.yang.boot;
+package com.heyeji.boot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
