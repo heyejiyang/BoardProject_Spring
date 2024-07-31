@@ -1,10 +1,15 @@
 package com.heyeji.boot.member.controllers;
 
+import com.heyeji.boot.member.MemberInfo;
+import com.heyeji.boot.member.MemberUtil;
 import com.heyeji.boot.member.services.MemberSaveService;
 import com.heyeji.boot.member.validators.JoinValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -21,6 +26,7 @@ public class MemberController { //로그인쪽 처리는 양식만 만들면 됨
 
     private final JoinValidator joinValidator;
     private final MemberSaveService memberSaveService;
+    private final MemberUtil memberUtil;
 
     @ModelAttribute
     private RequestLogin requestLogin(){ //세션 범위내에서 속성 추가
@@ -70,6 +76,35 @@ public class MemberController { //로그인쪽 처리는 양식만 만들면 됨
     public void test(Principal principal){
         //로그인한 회원 정보의 아이디 알 수 있다.
         log.info("로그인 아이디:{}",principal.getName());
+    }
+
+    @ResponseBody
+    @GetMapping("/test2")
+    public void test2(@AuthenticationPrincipal MemberInfo memberInfo){
+        log.info("로그인 회원: {}", memberInfo.toString());
+    }
+
+    @ResponseBody
+    @GetMapping("/test3")
+    public void test3(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //로그인 상태에 대한 객체 가져올 수 있다.
+
+        log.info("로그인 상태:{}", authentication.isAuthenticated()); //true,false
+
+        if(authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo){ //로그인 상태 - UserDetails 구현체
+            MemberInfo memberInfo = (MemberInfo) authentication.getPrincipal();
+            log.info("로그인 회원:{}",memberInfo.toString()); //로그인한 회원 정보
+        } else { //미로그인 상태 - String 문자열 / anonymousUser (getPrincipal())
+            log.info("getPrincipal(): {}",authentication.getPrincipal());
+        }
+
+    }
+
+    @ResponseBody
+    @GetMapping("/test4")
+    public void test4(){
+        log.info("로그인 여부: {}",memberUtil.isLogin());
+        log.info("로그인 회원: {}",memberUtil.getMember());
     }
 
 }
