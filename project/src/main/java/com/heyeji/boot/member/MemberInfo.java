@@ -44,11 +44,11 @@ public class MemberInfo implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() { //비번이 만료되지 않았는지
-        return true;
+        return true; //false -> 비번 만료 상태
     }
 
     @Override
-    public boolean isEnabled() { //계정 활성화 여부, 회원 탈퇴 여부 체크 false: 회원 탈퇴(비활성화)
-        return true; //활성화된 상태
+    public boolean isEnabled() { //계정 활성화 여부, 회원 탈퇴 여부 체크 false: 회원 탈퇴(비활성화, 지우는거 아님)
+        return true; //활성화된 상태, false일때 로그인 불가
     }
 }
