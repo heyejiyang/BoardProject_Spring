@@ -122,7 +122,7 @@ public class MemberController { //로그인쪽 처리는 양식만 만들면 됨
 
         //영속성 상태 안에 있는 엔티티 수정 -> update
         Board board = boardRepository.findById("freetalk").orElse(null);
-        board.setBName("수정/자유게시판");
+        board.setBName("수정요/자유게시판");
         boardRepository.saveAndFlush(board);
     }
 
