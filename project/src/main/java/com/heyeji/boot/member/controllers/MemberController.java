@@ -1,5 +1,7 @@
 package com.heyeji.boot.member.controllers;
 
+import com.heyeji.boot.board.entities.Board;
+import com.heyeji.boot.board.repositories.BoardRepository;
 import com.heyeji.boot.member.MemberInfo;
 import com.heyeji.boot.member.MemberUtil;
 import com.heyeji.boot.member.services.MemberSaveService;
@@ -27,6 +29,7 @@ public class MemberController { //로그인쪽 처리는 양식만 만들면 됨
     private final JoinValidator joinValidator;
     private final MemberSaveService memberSaveService;
     private final MemberUtil memberUtil;
+    private final BoardRepository boardRepository;
 
     @ModelAttribute
     private RequestLogin requestLogin(){ //세션 범위내에서 속성 추가
@@ -105,6 +108,22 @@ public class MemberController { //로그인쪽 처리는 양식만 만들면 됨
     public void test4(){
         log.info("로그인 여부: {}",memberUtil.isLogin());
         log.info("로그인 회원: {}",memberUtil.getMember());
+    }
+
+    @ResponseBody
+    @GetMapping("/test5")
+    public void test5(){
+//        Board board = Board.builder()
+//                .bId("freetalk")
+//                .bName("자유게시판")
+//                .build();
+//
+//        boardRepository.saveAndFlush(board);
+
+        //영속성 상태 안에 있는 엔티티 수정 -> update
+        Board board = boardRepository.findById("freetalk").orElse(null);
+        board.setBName("수정/자유게시판");
+        boardRepository.saveAndFlush(board);
     }
 
 }

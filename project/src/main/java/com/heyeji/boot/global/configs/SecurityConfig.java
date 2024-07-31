@@ -37,6 +37,15 @@ public class SecurityConfig {
         });
         /*로그인 로그아웃 E*/
 
+        /* 인가(접근 통제) 설정 S*/
+        http.authorizeHttpRequests(a ->{ //~/** -> ~포함 하위경로 전체
+           a.requestMatchers("/mypage/**").authenticated()
+                   .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                   .anyRequest().permitAll();
+           //해당 주소 어떻게 접근 할 수 있는지 권한에 대한 부분 설정 , authenticated(): 회원 전용, 관리자 페이지, 다른 주소는 모든 접근 권한 허용
+        });
+        /* 인가(접근 통제) 설정 E*/
+
         return http.build();
     }
 
