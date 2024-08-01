@@ -5,7 +5,10 @@ import com.heyeji.boot.member.services.LoginSuccessHandler;
 import com.heyeji.boot.member.services.MemberAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,6 +18,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * 스프링 시큐리티 전용 설정 클래스
  */
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     //스프링 시큐리티의 주요 설정 항목들 넣어주는 메서드
@@ -47,7 +52,10 @@ public class SecurityConfig {
         });
 
         http.exceptionHandling(a ->{
-            a.authenticationEntryPoint(new MemberAuthenticationEntryPoint());
+            a.authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                    .accessDeniedHandler((req,res,e)-> {
+                       res.sendError(HttpStatus.UNAUTHORIZED.value());
+                    });
         });
         /* 인가(접근 통제) 설정 E*/
 
