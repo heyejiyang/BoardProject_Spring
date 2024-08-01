@@ -2,6 +2,7 @@ package com.heyeji.boot.global.configs;
 
 import com.heyeji.boot.member.services.LoginFailureHandler;
 import com.heyeji.boot.member.services.LoginSuccessHandler;
+import com.heyeji.boot.member.services.MemberAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,6 +44,10 @@ public class SecurityConfig {
                    .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                    .anyRequest().permitAll();
            //해당 주소 어떻게 접근 할 수 있는지 권한에 대한 부분 설정 , authenticated(): 회원 전용, 관리자 페이지, 다른 주소는 모든 접근 권한 허용
+        });
+
+        http.exceptionHandling(a ->{
+            a.authenticationEntryPoint(new MemberAuthenticationEntryPoint());
         });
         /* 인가(접근 통제) 설정 E*/
 

@@ -1,35 +1,27 @@
 package com.heyeji.boot.member.controllers;
 
-import com.heyeji.boot.board.entities.Board;
-import com.heyeji.boot.board.repositories.BoardRepository;
-import com.heyeji.boot.member.MemberInfo;
-import com.heyeji.boot.member.MemberUtil;
+import com.heyeji.boot.global.exceptions.ExceptionProcessor;
 import com.heyeji.boot.member.services.MemberSaveService;
 import com.heyeji.boot.member.validators.JoinValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
 @SessionAttributes("requestLogin")
 @Slf4j
-public class MemberController { //로그인쪽 처리는 양식만 만들면 됨 시큐리티가 처리해준다.
+public class MemberController implements ExceptionProcessor { //로그인쪽 처리는 양식만 만들면 됨 시큐리티가 처리해준다.
 
     private final JoinValidator joinValidator;
     private final MemberSaveService memberSaveService;
-    private final MemberUtil memberUtil;
-    private final BoardRepository boardRepository;
+   // private final MemberUtil memberUtil;
+    //private final BoardRepository boardRepository;
 
     @ModelAttribute
     private RequestLogin requestLogin(){ //세션 범위내에서 속성 추가
@@ -40,6 +32,20 @@ public class MemberController { //로그인쪽 처리는 양식만 만들면 됨
     //pc, 모바일 뷰 분리예정.. (front, mobile, admin)
     public String join(@ModelAttribute RequestJoin form)
     {
+        //임시로 에러 던지기
+//        boolean result = false;
+//        if(!result){
+//            throw  new CommonException("테스트 예외", HttpStatus.BAD_REQUEST);
+//        }
+
+//        if(!result){
+//            throw  new AlertException("Alert 테스트 예외", HttpStatus.BAD_REQUEST);
+//        }
+
+//        if(!result){
+//            throw  new AlertBackException("AlertBack 테스트 예외", HttpStatus.BAD_REQUEST);
+//        }
+
         return "front/member/join";
     }
 
@@ -74,6 +80,7 @@ public class MemberController { //로그인쪽 처리는 양식만 만들면 됨
         return "front/member/login";
     }
 
+    /*
     @ResponseBody
     @GetMapping("/test")
     public void test(Principal principal){
@@ -125,5 +132,7 @@ public class MemberController { //로그인쪽 처리는 양식만 만들면 됨
         board.setBName("수정요/자유게시판");
         boardRepository.saveAndFlush(board);
     }
+
+    */
 
 }
