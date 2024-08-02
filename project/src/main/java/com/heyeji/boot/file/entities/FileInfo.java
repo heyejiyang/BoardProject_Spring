@@ -1,10 +1,7 @@
 package com.heyeji.boot.file.entities;
 
 import com.heyeji.boot.global.entities.BaseMemberEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,4 +31,9 @@ public class FileInfo extends BaseMemberEntity {
     private String extension;// 파일 확장자
 
     private boolean done; // 그룹 작업 완료 여부
+
+    @Transient
+    private String fileUrl; //파일 접근 URL
+    @Transient
+    private String filePath; //파일 업로드 경로
 }

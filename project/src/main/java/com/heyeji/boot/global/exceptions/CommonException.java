@@ -10,6 +10,7 @@ import java.util.Map;
 
 @Getter @Setter
 public class CommonException extends RuntimeException{
+    private boolean errorCode; //에러코드 형태이면 직접 메서드 가져와서 사용
     private HttpStatus status;
     private Map<String, List<String>> errorMessages;
 
