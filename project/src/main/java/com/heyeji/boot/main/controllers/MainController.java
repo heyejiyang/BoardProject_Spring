@@ -2,8 +2,11 @@ package com.heyeji.boot.main.controllers;
 
 import com.heyeji.boot.global.exceptions.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * 메인 페이지
@@ -12,7 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class MainController implements ExceptionProcessor {
     @GetMapping
-    public String index(){
+    public String index(Model model){
+
+        //js 경로
+        model.addAttribute("addCommonScript", List.of("fileManager"));
+        model.addAttribute("addScript",List.of("test/form"));
+
         return "front/main/index";
     }
 }
