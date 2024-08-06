@@ -32,7 +32,7 @@ public class FileInfo extends BaseMemberEntity {
 
     private boolean done; // 그룹 작업 완료 여부
 
-    @Transient
+    @Transient //엔티티 내부에서만 사용할 목적으로 정의한 필드
     private String fileUrl; //파일 접근 URL
     @Transient
     private String filePath; //파일 업로드 경로
