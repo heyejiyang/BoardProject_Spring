@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+
+<th:block layout:fragment="addCommonScript">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd46fa727576aae6ab543196403ee538"></script>
+</th:block>
+
+<main layout:fragment="content">
+    <div id="map1"></div>
+    <div id="map2"></div>
+    <div id="map3"></div>
+<!--    <button type="button" class="remove">마커1 제거</button>-->
+<!--    <button type="button" class="remove">마커2 제거</button>-->
+<!--    <button type="button" class="remove">마커3 제거</button>-->
+</main>
+</html>
