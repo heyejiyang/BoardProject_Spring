@@ -21,6 +21,7 @@ import java.util.UUID;
 public class FileUploadService{
 
     private final FileInfoRepository fileInfoRepository;
+    private final FileInfoService fileInfoService;//후속처리 메서드가 정의되어있다.
     private final FileProperties properties;
 
     public List<FileInfo> upload(MultipartFile[] files, String gid, String location){
@@ -72,6 +73,8 @@ public class FileUploadService{
                 fileInfoRepository.flush();
             }
         }
+
+        uploadedFiles.forEach(fileInfoService::addFileInfo);
         return uploadedFiles;
     }
 }

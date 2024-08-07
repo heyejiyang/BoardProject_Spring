@@ -8,6 +8,7 @@
         <meta name="csrf_token" th:content="${_csrf.token}">
         <!--요청 헤더에 싣어 보낼 이름(csrf_header)-->
         <meta name="csrf_header" th:content="${_csrf.headerName}">
+        <meta name="rootUrl" th:content="@{/}">
         <title>
             <th:block th:if="${pageTitle != null}"
             th:text="${#strings.concat(pageTitle, ' - ')}"></th:block>
