@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import cookies from 'react-cookies';
 import LoginForm from '../components/LoginForm';
 import UserInfoContext from '../modules/UserInfoContext';
-import { apiLogin } from '../apis/apiLogin';
+import { apiLogin, apiUser } from '../apis/apiLogin';
 
 const LoginContainer = () => {
   const [form, setForm] = useState({});
@@ -15,7 +15,7 @@ const LoginContainer = () => {
   const navigate = useNavigate();
 
   const {
-    actions: { setIsLogin, setUserInfo },
+    actions: { setIsLogin, setUserInfo, setIsAdmin },
   } = useContext(UserInfoContext);
 
   /**
@@ -62,27 +62,40 @@ const LoginContainer = () => {
         .then((res) => {
           const token = res.data;
           cookies.save('token', token, { path: '/' });
-          // 로그인 처리
-          //setIsLogin(true);
-          //setUserInfo({ email: 'user01@test.org', name: '사용자01' });
 
-          /**
-           * 후속 처리 : 회원 전용 서비스 URL로 이동
-           * 예) /member/login?redirectURL=로그인 이후 이동할 경로
-           *
-           */
-          const redirectURL = searchParams.get('redirectUrl') || '/';
-          navigate(redirectURL, { replace: true });
+          (async () => {
+            try {
+              // 로그인 처리
+              const user = await apiUser();
+              
+              setIsLogin(true); // 로그인 상태
+
+              setUserInfo(user);
+
+              const isAdmin = user.authorities.some(
+                (a) => a.authority === 'ADMIN',
+              );
+              setIsAdmin(isAdmin); // 관리자 여부
+
+              /**
+               * 후속 처리 : 회원 전용 서비스 URL로 이동
+               * 예) /member/login?redirectURL=로그인 이후 이동할 경로
+               *
+               */
+              const redirectURL = searchParams.get('redirectUrl') || '/';
+              navigate(redirectURL, { replace: true });
+            } catch (err) {
+              console.error(err);
+            }
+          })();
         })
-        .catch(err => {
+        .catch((err) => {
           _errors.global = _errors.global ?? [];
           _errors.global.push(err.message);
           setErrors({ ..._errors });
         });
-
-
     },
-    [t, form, searchParams, navigate],
+    [t, form, searchParams, navigate, setIsLogin, setUserInfo],
   );
 
   const onChange = useCallback((e) => {

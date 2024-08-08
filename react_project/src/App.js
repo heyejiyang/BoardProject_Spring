@@ -6,9 +6,10 @@ const NotFound = loadable(() => import('./commons/pages/NotFound'));
 const Main = loadable(() => import('./main/pages/Main')); // 메인페이지
 
 /* 회원 페이지 S */
+//lodable: 지연로딩
 const Join = loadable(() => import('./member/pages/Join'));
 const Login = loadable(() => import('./member/pages/Login'));
-
+const Logout = loadable(() => import('./member/pages/Logout'));
 /* 회원 페이지 E */
 
 /* 마이페이지 S */
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="member">
           <Route path="join" element={<Join />} />
           <Route path="login" element={<Login />} />
+          <Route path="logout" element={<Logout/>} />
         </Route>
         {/* 회원 페이지 E */}
         {/* 마이페이지 S */}

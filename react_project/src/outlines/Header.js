@@ -73,7 +73,7 @@ const HeaderBox = styled.header`
 const Header = () => {
   const { t } = useTranslation();
   const {
-    states: { isLogin, userInfo },
+    states: { isLogin, userInfo, isAdmin },
   } = useContext(UserInfoContext);
 
   return (
@@ -84,7 +84,7 @@ const Header = () => {
             <>
               {/* 로그인 상태 */}
               <span>
-                {userInfo.name}({userInfo.email}){t('님_로그인')}
+                {userInfo?.userName}({userInfo?.email}){t('님_로그인')}
               </span>
               <NavLink
                 to="/mypage"
@@ -92,6 +92,14 @@ const Header = () => {
               >
                 {t('마이페이지')}
               </NavLink>
+              {isAdmin && (
+                <NavLink
+                  to="/admin"
+                  className={({ isActive }) => classNames({ on: isActive })}
+                >
+                  {t('사이트_관리')}
+                </NavLink>
+              )}
               <NavLink
                 to="/member/logout"
                 className={({ isActive }) => classNames({ on: isActive })}
